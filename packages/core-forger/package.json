@@ -32,6 +32,8 @@
     "dependencies": {
         "@arkecosystem/core-container": "~0.3",
         "@arkecosystem/crypto": "~0.3",
+        "@types/lodash": "^4.14.118",
+        "@types/pluralize": "^0.0.29",
         "axios": "^0.18.0",
         "delay": "^4.1.0",
         "lodash.isempty": "^4.4.0",

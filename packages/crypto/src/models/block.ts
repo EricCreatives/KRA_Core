@@ -57,6 +57,7 @@ export class Block {
 
         const payloadHash = Block.serialize(data, false);
         const hash = createHash("sha256")
+            // @ts-ignore
             .update(payloadHash)
             .digest();
 
@@ -74,6 +75,7 @@ export class Block {
      */
     public static getIdHex(data) {
         const hash = createHash("sha256")
+            // @ts-ignore
             .update(Block.serialize(data, true))
             .digest();
         const temp = Buffer.alloc(8);
@@ -117,16 +119,16 @@ export class Block {
     public static deserialize(hexString, headerOnly = false) {
         const block: any = {};
         const buf = ByteBuffer.fromHex(hexString, true);
-        block.version = buf.readUInt32(0);
-        block.timestamp = buf.readUInt32(4);
-        block.height = buf.readUInt32(8);
+        block.version = buf.readUint32(0);
+        block.timestamp = buf.readUint32(4);
+        block.height = buf.readUint32(8);
         block.previousBlockHex = buf.slice(12, 20).toString("hex");
         block.previousBlock = new Bignum(block.previousBlockHex, 16).toFixed();
-        block.numberOfTransactions = buf.readUInt32(20);
-        block.totalAmount = new Bignum(buf.readUInt64(24));
-        block.totalFee = new Bignum(buf.readUInt64(32));
-        block.reward = new Bignum(buf.readUInt64(40));
-        block.payloadLength = buf.readUInt32(48);
+        block.numberOfTransactions = buf.readUint32(20);
+        block.totalAmount = new Bignum(buf.readUint64(24));
+        block.totalFee = new Bignum(buf.readUint64(32));
+        block.reward = new Bignum(buf.readUint64(40));
+        block.payloadLength = buf.readUint32(48);
         block.payloadHash = hexString.substring(104, 104 + 64);
         block.generatorPublicKey = hexString.substring(104 + 64, 104 + 64 + 33 * 2);
 
@@ -173,12 +175,14 @@ export class Block {
         const serializedBlock = Block.serialize(block, true);
         const transactions = block.transactions;
 
+        // @ts-ignore
         const buf = new ByteBuffer(serializedBlock.length + transactions.length * 4, true)
             .append(serializedBlock)
             .skip(transactions.length * 4);
 
         for (let i = 0; i < transactions.length; i++) {
             const serialized = Transaction.serialize(transactions[i]);
+            // @ts-ignore
             buf.writeUint32(serialized.length, serializedBlock.length + i * 4);
             buf.append(serialized);
         }
@@ -198,15 +202,15 @@ export class Block {
         block.previousBlockHex = toBytesHex(block.previousBlock);
 
         const bb = new ByteBuffer(256, true);
-        bb.writeUInt32(block.version);
-        bb.writeUInt32(block.timestamp);
-        bb.writeUInt32(block.height);
+        bb.writeUint32(block.version);
+        bb.writeUint32(block.timestamp);
+        bb.writeUint32(block.height);
         bb.append(block.previousBlockHex, "hex");
-        bb.writeUInt32(block.numberOfTransactions);
-        bb.writeUInt64(+new Bignum(block.totalAmount).toFixed());
-        bb.writeUInt64(+new Bignum(block.totalFee).toFixed());
-        bb.writeUInt64(+new Bignum(block.reward).toFixed());
-        bb.writeUInt32(block.payloadLength);
+        bb.writeUint32(block.numberOfTransactions);
+        bb.writeUint64(+new Bignum(block.totalAmount).toFixed());
+        bb.writeUint64(+new Bignum(block.totalFee).toFixed());
+        bb.writeUint64(+new Bignum(block.reward).toFixed());
+        bb.writeUint32(block.payloadLength);
         bb.append(block.payloadHash, "hex");
         bb.append(block.generatorPublicKey, "hex");
 
@@ -254,8 +258,11 @@ export class Block {
             }
 
             bb.writeInt(block.numberOfTransactions);
+            // @ts-ignore
             bb.writeLong(+block.totalAmount.toFixed());
+            // @ts-ignore
             bb.writeLong(+block.totalFee.toFixed());
+            // @ts-ignore
             bb.writeLong(+block.reward.toFixed());
 
             bb.writeInt(block.payloadLength);
@@ -330,8 +337,10 @@ export class Block {
             data.transactionIds &&
             data.transactionIds.length === data.numberOfTransactions;
         if (this.headerOnly) {
+            // @ts-ignore
             this.serialized = Block.serialize(data).toString("hex");
         } else {
+            // @ts-ignore
             this.serialized = Block.serializeFull(data).toString("hex");
         }
         this.data = Block.deserialize(this.serialized);
@@ -413,6 +422,7 @@ export class Block {
     public verifySignature() {
         const bytes = Block.serialize(this.data, false);
         const hash = createHash("sha256")
+            // @ts-ignore
             .update(bytes)
             .digest();
 

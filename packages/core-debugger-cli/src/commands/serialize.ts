@@ -9,6 +9,7 @@ function serialize(opts) {
             ? Transaction.serialize(JSON.parse(opts.data))
             : Block[opts.full ? "serializeFull" : "serialize"](JSON.parse(opts.data));
 
+    // @ts-ignore
     return handleOutput(opts, serialized.toString("hex"));
 }
 

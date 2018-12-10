@@ -234,9 +234,12 @@ export class GenesisBlockBuilder {
      * @return {String}
      */
     public __getHash(block) {
-        return createHash("sha256")
-            .update(this.__getBytes(block))
-            .digest();
+        return (
+            createHash("sha256")
+                // @ts-ignore
+                .update(this.__getBytes(block))
+                .digest()
+        );
     }
 
     /**
@@ -266,8 +269,11 @@ export class GenesisBlockBuilder {
             }
 
             byteBuffer.writeInt(block.numberOfTransactions);
+            // @ts-ignore
             byteBuffer.writeLong(block.totalAmount);
+            // @ts-ignore
             byteBuffer.writeLong(block.totalFee);
+            // @ts-ignore
             byteBuffer.writeLong(block.reward);
 
             byteBuffer.writeInt(block.payloadLength);

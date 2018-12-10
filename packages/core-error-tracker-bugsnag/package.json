@@ -23,6 +23,7 @@
         "lint": "../../node_modules/tslint/bin/tslint -c ../../tslint.json 'src/**/*.ts' '__tests__/**/*.ts' --fix"
     },
     "dependencies": {
+        "@types/bugsnag": "^2.5.28",
         "bugsnag": "^2.4.3"
     },
     "publishConfig": {

@@ -88,15 +88,15 @@ describe("Models - Block", () => {
         };
 
         it("version is serialized as a TODO", () => {
-            expect(serialize(data).readUInt32(0)).toEqual(data.version);
+            expect(serialize(data).readUint32(0)).toEqual(data.version);
         });
 
         it("timestamp is serialized as a UInt32", () => {
-            expect(serialize(data).readUInt32(4)).toEqual(data.timestamp);
+            expect(serialize(data).readUint32(4)).toEqual(data.timestamp);
         });
 
         it("height is serialized as a UInt32", () => {
-            expect(serialize(data).readUInt32(8)).toEqual(data.height);
+            expect(serialize(data).readUint32(8)).toEqual(data.height);
         });
 
         describe("if `previousBlock` exists", () => {
@@ -125,13 +125,13 @@ describe("Models - Block", () => {
         });
 
         it("number of transactions is serialized as a UInt32", () => {
-            expect(serialize(data).readUInt32(20)).toEqual(data.numberOfTransactions);
+            expect(serialize(data).readUint32(20)).toEqual(data.numberOfTransactions);
         });
 
         it("`totalAmount` of transactions is serialized as a UInt64", () => {
             expect(
                 serialize(data)
-                    .readUInt64(24)
+                    .readUint64(24)
                     .toNumber(),
             ).toEqual(+data.totalAmount);
         });
@@ -139,7 +139,7 @@ describe("Models - Block", () => {
         it("`totalFee` of transactions is serialized as a UInt64", () => {
             expect(
                 serialize(data)
-                    .readUInt64(32)
+                    .readUint64(32)
                     .toNumber(),
             ).toEqual(+data.totalFee);
         });
@@ -147,13 +147,13 @@ describe("Models - Block", () => {
         it("`reward` of transactions is serialized as a UInt64", () => {
             expect(
                 serialize(data)
-                    .readUInt64(40)
+                    .readUint64(40)
                     .toNumber(),
             ).toEqual(+data.reward);
         });
 
         it("`payloadLength` of transactions is serialized as a UInt32", () => {
-            expect(serialize(data).readUInt32(48)).toEqual(data.payloadLength);
+            expect(serialize(data).readUint32(48)).toEqual(data.payloadLength);
         });
 
         it("`payloadHash` of transactions is appended, using 32 bytes, as hexadecimal", () => {

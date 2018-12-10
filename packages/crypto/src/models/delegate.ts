@@ -34,6 +34,7 @@ export class Delegate {
      */
     public static encryptPassphrase(passphrase, network, password) {
         const keys = crypto.getKeys(passphrase);
+        // @ts-ignore
         const decoded = wif.decode(crypto.keysToWIF(keys, network));
 
         return bip38.encrypt(decoded.privateKey, decoded.compressed, password);
@@ -175,9 +176,11 @@ export class Delegate {
      * @return {String}
      */
     public __encryptData(content, password) {
+        // @ts-ignore
         const derivedKey = forge.pkcs5.pbkdf2(password, this.otpSecret, this.iterations, this.keySize);
         const cipher = forge.cipher.createCipher("AES-CBC", derivedKey);
         cipher.start({ iv: forge.util.decode64(this.otp) });
+        // @ts-ignore
         cipher.update(forge.util.createBuffer(content));
         cipher.finish();
 
@@ -191,9 +194,11 @@ export class Delegate {
      * @return {String}
      */
     public __decryptData(cipherText, password) {
+        // @ts-ignore
         const derivedKey = forge.pkcs5.pbkdf2(password, this.otpSecret, this.iterations, this.keySize);
         const decipher = forge.cipher.createDecipher("AES-CBC", derivedKey);
         decipher.start({ iv: forge.util.decode64(this.otp) });
+        // @ts-ignore
         decipher.update(forge.util.createBuffer(forge.util.decode64(cipherText)));
         decipher.finish();
 
